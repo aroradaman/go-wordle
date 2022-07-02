@@ -1,6 +1,11 @@
 package main
 
-import "unicode"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+	"unicode"
+)
 
 func checkFixed(word string, r rune, index int) bool {
 	for i, w := range word {
@@ -53,4 +58,45 @@ func check(word string, attempt string, fixed *map[rune]int, includes *map[rune]
 		}
 	}
 	return string(result)
+}
+
+func play(tree Node, words []string) {
+	var attempt, result string
+
+	attemptHistory := make([]string, 0)
+
+	//var attempt string
+	rand.Seed(time.Now().Unix())
+
+	word := words[rand.Intn(len(words))]
+	fmt.Printf("Word: %s\n\n", word)
+
+	fixed := make(map[rune]int)
+	includes := make(map[rune][]int, 0)
+	excludes := make([]rune, 0)
+
+	for i := 0; i < 5; i++ {
+
+		validaAttempts := make([]string, 0)
+
+		// starting the game with "CRANE"
+		if i == 0 {
+			attempt = "CRANE"
+		} else {
+			pruneAndGuess(&tree, fixed, includes, excludes, make([]rune, 0), 0, len(word), &validaAttempts)
+			attempt = pickOne(validaAttempts, attemptHistory)
+		}
+
+		attemptHistory = append(attemptHistory, attempt)
+		result = check(word, attempt, &fixed, &includes, &excludes)
+
+		fmt.Printf("Attempt: %s\n", attempt)
+		fmt.Printf("Result: %s\n", result)
+
+		if attempt == word {
+			fmt.Printf("\nYay! completed in %d attempts\n", i+1)
+			break
+		}
+		fmt.Printf("\nFailed to guess\n")
+	}
 }

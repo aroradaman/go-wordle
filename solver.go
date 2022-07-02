@@ -58,37 +58,35 @@ func createTree(words []string) Node {
 }
 
 func pruneAndGuess(node *Node, fixed map[rune]int, includes map[rune][]int, excludes []rune, attempt []rune, depth int, length int, validAttempts *[]string) {
-	if len(node.children) == 0 {
-		if depth == length {
-			containsAllYellow := true
-			// direct exclusion
-			for _, r := range attempt {
-				for _, er := range excludes {
-					if r == er {
-						return
+	if len(node.children) == 0 && depth == length {
+		containsAllYellow := true
+		// direct exclusion
+		for _, r := range attempt {
+			for _, er := range excludes {
+				if r == er {
+					return
 
-					}
 				}
 			}
+		}
 
-			for cr, ignore := range includes {
-				containsYellow := false
-				for i, r := range attempt {
-					if r == cr && notIn(i, ignore) {
-						containsYellow = true
-						break
-					}
-				}
-				if !containsYellow {
-					containsAllYellow = false
+		for cr, ignore := range includes {
+			containsYellow := false
+			for i, r := range attempt {
+				if r == cr && notIn(i, ignore) {
+					containsYellow = true
 					break
 				}
 			}
-			if containsAllYellow {
-				*validAttempts = append(*validAttempts, string(attempt))
+			if !containsYellow {
+				containsAllYellow = false
+				break
 			}
-
 		}
+		if containsAllYellow {
+			*validAttempts = append(*validAttempts, string(attempt))
+		}
+
 	} else {
 		for _, child := range node.children {
 			prune := false
