@@ -79,9 +79,9 @@ func play(tree Node, words []string) {
 
 		validaAttempts := make([]string, 0)
 
-		// starting the game with "CRANE"
+		// starting the game with "ADIEU"
 		if i == 0 {
-			attempt = "CRANE"
+			attempt = "ADIEU"
 		} else {
 			pruneAndGuess(&tree, fixed, includes, excludes, make([]rune, 0), 0, len(word), &validaAttempts)
 			attempt = pickOne(validaAttempts, attemptHistory)
