@@ -65,7 +65,7 @@ func main() {
 	rand.Seed(time.Now().Unix())
 
 	answer = corpus[rand.Intn(len(corpus))]
-	answer = "ARROW"
+
 	solver := NewSolver(corpus, answer)
 	attempts := 0
 
