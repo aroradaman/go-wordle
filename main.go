@@ -5,11 +5,9 @@ Copyright © 2022 NAME HERE <aroradaman@gmail.com>
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/fatih/color"
 	"math/rand"
-	"os"
 	"strings"
 	"time"
 
@@ -59,20 +57,19 @@ func write(output string, exception string, attempts int) {
 
 func main() {
 
-	var hints, words []string
+	var hints []string
 	var answer, attempt, exception, output string
 	var feedback Feedback
 	var exit, completed bool
 
 	rand.Seed(time.Now().Unix())
-	data, _ := os.ReadFile("words.json")
-	_ = json.Unmarshal(data, &words)
 
-	answer = words[rand.Intn(len(words))]
-	solver := NewSolver(words, answer)
+	answer = corpus[rand.Intn(len(corpus))]
+	answer = "ARROW"
+	solver := NewSolver(corpus, answer)
 	attempts := 0
 
-	validitySolver := NewSolver(words, answer)
+	validitySolver := NewSolver(corpus, answer)
 
 	fmt.Printf("Useage: [e]exit, [h]hint, defualt input will be your attempt\n\n")
 
