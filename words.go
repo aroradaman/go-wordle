@@ -1,6 +1,6 @@
 package main
 
-var corpus = []string{
+var words = []string{
 	"DRUID",
 	"DRUNK",
 	"DRYER",
